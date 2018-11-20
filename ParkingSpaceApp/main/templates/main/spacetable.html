@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<table>
+	
+	<thead>
+		<tr>
+			<th>Latitude</th>
+			<th>Longitude</th>
+			<th>Available?</th>
+			<th>Reserve!</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for space in ParkingSpaces %}
+		<tr>
+			<td>{{ space.latitude }}</td>
+			<td>{{ space.longitude }}</td>
+			<td>{{ space.available }}</td>
+			<td><a href="/reserve/{{space.id}}/">RESERVE</a></td>
+
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+
+{% endblock content %}
