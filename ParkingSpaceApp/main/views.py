@@ -33,22 +33,23 @@ class ParkingSpaceView(ListView):
 
 		wanted_items = set()
 
-		search = float(self.request.GET.get('search'))
+		if self.request.GET.get('search'):
 
-		for space in ParkingSpace.objects.filter(available=True):
-			ulat = self.request.user.profile.ulatitude
-			ulong = self.request.user.profile.ulongitude
-			uCoord = (ulat, ulong)
-			sCoord = (space.latitude, space.longitude)
-			d = geopy.distance.vincenty(uCoord, sCoord).miles
-			if d <= search:
-				wanted_items.add(space.pk)
+			search = float(self.request.GET.get('search'))
+
+			for space in ParkingSpace.objects.filter(available=True):
+				ulat = self.request.user.profile.ulatitude
+				ulong = self.request.user.profile.ulongitude
+				uCoord = (ulat, ulong)
+				sCoord = (space.latitude, space.longitude)
+				d = geopy.distance.vincenty(uCoord, sCoord).miles
+				if d <= search:
+					wanted_items.add(space.pk)
 
 		return ParkingSpace.objects.filter(pk__in = wanted_items)
 
 
-	def get_success_url(self):
-		return reverse('spaces')
+	
 
 class ParkingSpaceReserveView(UpdateView):
 	model = ParkingSpace
